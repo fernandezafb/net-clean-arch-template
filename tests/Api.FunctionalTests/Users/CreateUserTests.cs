@@ -61,7 +61,7 @@ public class CreateUserTests : BaseFunctionalTest
     public async Task Should_ReturnBadRequest_WhenNameIsMissing()
     {
         // Arrange
-        var request = new CreateUserRequest("test@test.com", "", true);
+        var request = new CreateUserRequest(Faker.Internet.Email(), "", true);
 
         // Act
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync("api/v1/users", request);
@@ -80,7 +80,7 @@ public class CreateUserTests : BaseFunctionalTest
     public async Task Should_ReturnOk_WhenRequestIsValid()
     {
         // Arrange
-        var request = new CreateUserRequest("test@test.com", "name", true);
+        var request = new CreateUserRequest(Faker.Internet.Email(), "name", true);
 
         // Act
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync("api/v1/users", request);
@@ -93,7 +93,7 @@ public class CreateUserTests : BaseFunctionalTest
     public async Task Should_ReturnConflict_WhenUserExists()
     {
         // Arrange
-        var request = new CreateUserRequest("test@test.com", "name", true);
+        var request = new CreateUserRequest(Faker.Internet.Email(), "name", true);
 
         // Act
         await HttpClient.PostAsJsonAsync("api/v1/users", request);
