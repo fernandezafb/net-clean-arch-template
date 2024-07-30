@@ -1,12 +1,15 @@
-﻿using Application.Abstractions.Caching;
+﻿using Application.Abstractions.Authentication;
+using Application.Abstractions.Caching;
 using Application.Abstractions.Data;
 using Application.Abstractions.Time;
 using Dapper;
 using Domain.Users;
+using Infrastructure.Authentication;
 using Infrastructure.Caching;
 using Infrastructure.Database;
 using Infrastructure.Repositories;
 using Infrastructure.Time;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +28,7 @@ public static class DependencyInjection
             .AddServices()
             .AddDatabase(configuration)
             .AddCaching(configuration)
+            .AddAuthentication(configuration)
             .AddHealthChecks(configuration);
 
     private static IServiceCollection AddServices(this IServiceCollection services)
@@ -64,6 +68,23 @@ public static class DependencyInjection
         services.AddStackExchangeRedisCache(options => options.Configuration = redisConnectionString);
 
         services.AddSingleton<ICacheService, CacheService>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
+
+        services.Configure<AuthenticationOptions>(configuration.GetSection("Authentication"));
+
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
+
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<IUserContext, UserContext>();
 
         return services;
     }

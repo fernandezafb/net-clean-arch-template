@@ -1,4 +1,6 @@
-﻿using Application.Abstractions.Data;
+﻿using Api.FunctionalTests.Infrastructure.Authentication;
+using Application.Abstractions.Data;
+using Infrastructure.Authentication;
 using Infrastructure.Database;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -30,6 +32,15 @@ public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyn
     {
         builder.ConfigureTestServices(services =>
         {
+            services.Configure<AuthenticationOptions>(o =>
+            {
+                o.JwtSecret = MockJwtTokens.JwtSecret;
+                o.ValidIssuer = MockJwtTokens.Issuer;
+                o.ValidAudience = MockJwtTokens.Audience;
+            });
+
+            services.ConfigureOptions<JwtBearerOptionsSetup>();
+
             services.RemoveAll(typeof(IDbConnectionFactory));
             services.AddSingleton<IDbConnectionFactory>(_ =>
                 new DbConnectionFactory(new NpgsqlDataSourceBuilder(_dbContainer.GetConnectionString()).Build()));

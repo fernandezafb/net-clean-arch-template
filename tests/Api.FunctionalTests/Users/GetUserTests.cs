@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using Api.FunctionalTests.Infrastructure;
+using Api.FunctionalTests.Infrastructure.Authentication;
 using Application.Users.Create;
 using Application.Users.GetById;
 using FluentAssertions;
@@ -18,10 +19,12 @@ public class GetUserTests : BaseFunctionalTest
     public async Task Should_ReturnNotFound_WhenUserDoesNotExist()
     {
         // Arrange
-        var userId = Guid.NewGuid();
+        string userId = Guid.NewGuid().ToString();
 
         // Act
-        HttpResponseMessage response = await HttpClient.GetAsync($"api/v1/users/{userId}");
+        HttpResponseMessage response = await HttpClient
+            .WithUserCredentials(userId)
+            .GetAsync($"api/v1/users/{userId}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -34,7 +37,9 @@ public class GetUserTests : BaseFunctionalTest
         Guid userId = await CreateUserAsync();
 
         // Act
-        UserResponse? user = await HttpClient.GetFromJsonAsync<UserResponse>($"api/v1/users/{userId}");
+        UserResponse? user = await HttpClient
+            .WithUserCredentials(userId.ToString())
+            .GetFromJsonAsync<UserResponse>($"api/v1/users/{userId}");
 
         // Assert
         user.Should().NotBeNull();

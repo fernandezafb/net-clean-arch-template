@@ -28,6 +28,11 @@ internal sealed class CreateUserCommandHandler(
         var name = new Name(command.Name);
         var user = User.Create(email, name, command.HasPublicProfile);
 
+        // TODO: Register user in Identity Server
+        string identityId = Guid.NewGuid().ToString();
+
+        user.SetIdentityId(identityId);
+
         userRepository.Insert(user);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

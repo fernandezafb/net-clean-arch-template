@@ -21,6 +21,7 @@ public class Get : IEndpoint
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
+        .RequireAuthorization()
         .WithName("GetUserById")
         .WithDescription("Returns information about a user given its id.")
         .WithTags(Tags.Users);

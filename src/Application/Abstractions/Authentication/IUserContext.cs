@@ -2,5 +2,8 @@
 
 public interface IUserContext
 {
-    Guid UserId { get; }
+    /*
+     * Returns the user id from the claims principal.
+     */
+    string IdentityId { get; }
 }

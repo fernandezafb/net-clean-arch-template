@@ -20,7 +20,9 @@ public sealed class User : Entity
 
     public Name Name { get; private set; }
 
-    public bool HasPublicProfile { get; set; }
+    public string IdentityId { get; private set; } = string.Empty;
+
+    public bool HasPublicProfile { get; private set; }
 
     public static User Create(Email email, Name name, bool hasPublicProfile)
     {
@@ -29,5 +31,10 @@ public sealed class User : Entity
         user.Raise(new UserCreatedDomainEvent(user.Id));
 
         return user;
+    }
+
+    public void SetIdentityId(string identityId)
+    {
+        IdentityId = identityId;
     }
 }

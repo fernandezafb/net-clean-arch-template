@@ -16,6 +16,7 @@
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,10 +27,6 @@
 	<InternalsVisibleTo Include="ArchitectureTests" />
 	<InternalsVisibleTo Include="Api.FunctionalTests" />
 	<InternalsVisibleTo Include="Application.IntegrationTests" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Database\Migrations\" />
   </ItemGroup>
 
 </Project>
