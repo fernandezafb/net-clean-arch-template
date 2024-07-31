@@ -1,3 +1,5 @@
+![Build & Test](https://github.com/fernandezafb/net-clean-arch-template/actions/workflows/build.yml/badge.svg)
+
 # Clean Architecture Template
 
 What's included in the template?
