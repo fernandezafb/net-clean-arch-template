@@ -9,7 +9,7 @@ public static class DependencyInjection
     public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options => options.SupportNonNullableReferenceTypes());
 
         services.AddHttpContextAccessor();
 
@@ -28,7 +28,7 @@ public static class DependencyInjection
             options.GroupNameFormat = "'v'V";
             options.SubstituteApiVersionInUrl = true;
         });
-        
+
         services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 
         return services;

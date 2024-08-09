@@ -19,7 +19,7 @@ public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyn
 {
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
         .WithImage("postgres:latest")
-        .WithDatabase("runtrackr")
+        .WithDatabase("net-clean-arch-template")
         .WithUsername("postgres")
         .WithPassword("postgres")
         .Build();

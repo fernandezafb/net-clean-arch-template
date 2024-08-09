@@ -31,7 +31,7 @@ public class ConfigureSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOptio
     {
         var openApiInfo = new OpenApiInfo
         {
-            Title = $"RunTrackr.Api v{apiVersionDescription.ApiVersion}",
+            Title = $"Template.Api v{apiVersionDescription.ApiVersion}",
             Version = apiVersionDescription.ApiVersion.ToString()
         };
 
