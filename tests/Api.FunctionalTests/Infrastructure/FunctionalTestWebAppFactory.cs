@@ -41,7 +41,7 @@ public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyn
 
             services.ConfigureOptions<JwtBearerOptionsSetup>();
 
-            services.RemoveAll(typeof(IDbConnectionFactory));
+            services.RemoveAll<IDbConnectionFactory>();
             services.AddSingleton<IDbConnectionFactory>(_ =>
                 new DbConnectionFactory(new NpgsqlDataSourceBuilder(_dbContainer.GetConnectionString()).Build()));
 
@@ -51,7 +51,7 @@ public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyn
                     .UseNpgsql(_dbContainer.GetConnectionString())
                     .UseSnakeCaseNamingConvention());
 
-            services.RemoveAll(typeof(RedisCacheOptions));
+            services.RemoveAll<RedisCacheOptions>();
             services.AddStackExchangeRedisCache(redisCacheOptions =>
                 redisCacheOptions.Configuration = _redisContainer.GetConnectionString());
         });

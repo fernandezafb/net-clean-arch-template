@@ -30,7 +30,7 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
     {
         builder.ConfigureTestServices(services =>
         {
-            services.RemoveAll(typeof(IDbConnectionFactory));
+            services.RemoveAll<IDbConnectionFactory>();
             services.AddSingleton<IDbConnectionFactory>(_ =>
                 new DbConnectionFactory(new NpgsqlDataSourceBuilder(_dbContainer.GetConnectionString()).Build()));
 
@@ -40,7 +40,7 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
                     .UseNpgsql(_dbContainer.GetConnectionString())
                     .UseSnakeCaseNamingConvention());
 
-            services.RemoveAll(typeof(RedisCacheOptions));
+            services.RemoveAll<RedisCacheOptions>();
             services.AddStackExchangeRedisCache(redisCacheOptions =>
                 redisCacheOptions.Configuration = _redisContainer.GetConnectionString());
         });
